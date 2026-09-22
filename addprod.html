@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <title>login-adm</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+      <header class="navbar">
+        <div class="logo">SEBO PANSOFIA</div>
+      <main class="login-container">
+        <div class="login-card">
+          <h1>Sebo Pansofia - <span>Acesso Restrito</span></h1>
+          <br>
+          <h2 class="subtitle">Acesse o painel de gestão do acervo</h2>
+          
+          <br>
+          
+          <form>
+            <label>TIPO DE ACESSO</label>
+            <div>
+              <button type="button" id="btn-funcionario">Funcionário</button>
+              <button type="button" id="btn-admin">Administrador</button>
+            </div>
+        <br>
+        
+        <div>
+          <label for="email" id="label-user">E-MAIL</label>
+          <div>
+            <input type="email" id="user-input" placeholder="nome@sebo-pansofia.com" required>
+          </div>
+        </div>
+        
+        <br>
+
+        <div>
+            <div>
+              <label for="password">SENHA</label>
+            </div>
+
+            <div>
+              <input type="password" id="password" placeholder="••••••••" required>
+              <br>
+              <a href="#">Esqueceu sua senha?</a>
+            </div>
+          </div>
+
+          <br>
+          <button type="submit">ENTRAR</button>
+          
+        </form>
+        </div>
+      </main>
+    </header>
+    <script src="script.js"></script>
+  </body>
+</html>
