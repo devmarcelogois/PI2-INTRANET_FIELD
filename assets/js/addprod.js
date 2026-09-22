@@ -3,6 +3,13 @@ const btnHq = document.getElementById('btn-hq');
 const slcOutroIdioma = document.getElementById('slc_outro_idioma');
 const divOutroIdioma = document.getElementById('div_outro_idioma');
 
+
+//Nova mídia ou novo exemplar
+const rdNovoExemplar = document.getElementById('rd-novo_exemplar');
+const rdNovaMidia = document.getElementById('rd-nova_midia');
+const divNovaMidia = document.getElementById('div_nova_midia');
+const divNovoExemplar = document.getElementById('div_novo_exemplar');
+
 //inputs do item
 let tipoItem = "LIVRO";
 const input_Titulo = document.getElementById('input_titulo');
@@ -64,4 +71,14 @@ slcOutroIdioma.addEventListener('change', (event) => {
     } else {
       divOutroIdioma.style.display = "none";  // Esconde a div
     }
+});
+
+rdNovoExemplar.addEventListener('change', (event) => {
+    divNovaMidia.style.display = "none";
+    divNovoExemplar.style.display = "block"; 
+});
+
+rdNovaMidia.addEventListener('change', (event) => {
+    divNovoExemplar.style.display = "none"; 
+    divNovaMidia.style.display = "block";
 });

@@ -1,3 +1,45 @@
+<!-- Para fins de apresentação do código, a seguir, há um exemplo  de como
+ este formulário enviaria os dados. Perceba a presença do PHP, usado apenas como exemplo.
+ Outras linguagens poderão ser usadas, quando forem consideradas:
+ 
+1º Arquivo de  configurações .php -> config.php. Responsável pela conexão:
+
+<?php
+  $dbHost 'Localhost';
+  $dbUsername = 'root';
+  $dbPassword = '';
+  $dbName = 'addprod-pansofia';
+  $conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+
+  if($conexao->connect_errno)
+    {
+      echo "Erro";
+    }
+     else
+    {
+      echo "Conexão efetuada com sucesso";
+    }
+?>
+
+2º Arquivo .php -> addprod.php. Responsável pelo gerenciamento:
+<?php
+include_once('config.php');
+
+$nome $_POST['input-titulo'];
+$ano $_POST['input-ano'];
+
+//O banco receberá o ID do campo, com o sistema de autocomplete OU adicionando uma nova linha na tabela:
+$id_autor = $_POST['input-id-autor']; 
+$isbn $_POST['input-isbn'];
+$sinopse $_POST['input-sinopse'];
+$tipomidia $_POST['tipo-midia'];
+
+$result = mysqli_query($conexao, "INSERT INTO usuarios (nm_titulo, email, telefone, sexo, data_nasc, cidade, estado, endereco)
+VALUES ('$nome', '$email', '$telefone', '$sexo', '$data_nasc', '$cidade', '$estado', '$endereco")");
+
+?>
+ -->
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -8,7 +50,8 @@
   
   <body>
       <header class="navbar">
-        <div class="logo">SEBO PANSOFIA</div>
+      
+      <div class="logo">SEBO PANSOFIA</div>
       <main class="cadastro-container">
 
         <div class="cadastro_produto_login">
@@ -18,147 +61,168 @@
         </div>
         <img src="assets\images\admin_icon.png" alt="Admin icon">
 
-        <div class="cadastro_produto">
-          <h1 class="title">Cadastrar novo produto</h1>
-          <br>
-                  
-        <!--autocomplete="off -> evitar que os dados sejam salvos pelo navegador-->
-        <form autocomplete="off">
-            <label>Categoria:</label>
-            <div>
-              <button type="button" id="btn-livro">Livro</button>
-              <button type="button" id="btn-hq">HQ</button>
-            </div>
-        <br>
-        
-        <div>
-          <label id="label-titulo">Título</label>
-          <div>
-            <input type="text" name="input_titulo" id="input_titulo" placeholder="Memórias Póstumas" required>
-          </div>
-        </div>
-
-        <div>
-          <label id="label-autor">Autor</label>
-          <div>
-            <input type="text" name="input_autor" id="input_autor" placeholder="Ted Chiang" required>
-          </div>
-        </div>
-
-        <div>
-          <label id="label-ano">Ano</label>
-          <div>
-            <input type="text" name="input_ano" id="input_ano" min = -2100 max = 2027 placeholder="1998" required>
-          </div>
-        </div>
-
-        <div>
-          <label id="label-isbn">ISBN</label>
-          <div>
-            <input type="text" name="input_isbn" id="input_isbn" placeholder="978-8551000786" required>
-          </div>
-        </div>
-        
-        <br>
-                
-        <!--autocomplete="off -> evitar que os dados sejam salvos pelo navegador-->
-        <form autocomplete="off">
-            <p>Gênero </p>
-    
+        <!--Quando for possível conectar com o banco de dados e com a camada back,
+        substituia a linha seguinte por:
+        <form autocomplete="off" action="formulario_addprod.tipo" method="POST">
+        -->
+  
+        <div class="cadastro_produto_login">
             <label>
-            <input type="checkbox" name="generos[]" value="ficcao"> Ficção
-            </label><br>
-
-            <label>
-            <input type="checkbox" name="generos[]" value="historia"> História
-            </label><br>
-
-            <label>
-            <input type="checkbox" name="generos[]" value="filosofia"> Filosofia
-            </label><br>
-
-            <label>
-            <input type="checkbox" name="generos[]" value="poesia"> Poesia
-            </label><br>
-
-            <label>
-            <input type="checkbox" name="generos[]" value="arte"> Arte
-            </label><br>
+                <input type="radio" id="rd-nova_midia" name="opcao_gerenciamento" checked> Nova mídia
+            </label>
             
             <label>
-            <input type="checkbox" name="generos[]" value="religiao"> Religião
-            </label><br>
-        </form>
-        
-        <br>
-        
-        <div>
-            <label id="label-idioma">Idioma</label>
-            <select id="slc_outro_idioma" autocomplete="off" name="idioma-item" id="idioma-item">
-                <option value="portugues">Português</option>
-                <option value="ingles">Inglês</option>
-                <option value="mandarim">Mandarim</option>
-                <option value="alemao">Alemão</option>
-                <option value="outro">Outro</option>
-            </select>
+                <input type="radio" id="rd-novo_exemplar" name="opcao_gerenciamento"> Novo exemplar
+            </label> 
+        </div>
 
-            <div style="display: none;" id="div_outro_idioma">
-                <label>Digite outro</label>
-                <div>
-                    <input autocomplete="off" type="text" name="idioma-item" placeholder="Digite o idioma" required>
+        <!--COMEÇO DO FORMULÁRIO: 
+        NOVA MÍDIA 
+        OU NOVO EXEMPLAR-->
+
+        <form autocomplete="off" action="addprod.php" >
+          <div id="div_nova_midia" class="cadastro_produto" style="display: block;">
+              <h1 class="title">Gerenciamento de acervo</h1>
+              <br>
+
+                <label>Categoria:</label>
+                <label>
+                  <input type="radio" id="btn-livro" name="tipo-midia" value="livro" checked> Livro
+                </label>
+                <label>
+                  <input type="radio" id="btn-hq" name="tipo-midia" value="hq"> HQ
+                </label> 
+            <br>
+            
+            <div>
+              <label id="label-titulo">Título</label>
+              <div>
+                <input type="text" name="input_titulo" id="input_titulo" placeholder="Memórias Póstumas" required>
+              </div>
+            </div>
+
+            <div>
+              <label id="label-autor">Autor</label>
+              <div>
+                <input type="text" name="input_autor" id="input_autor" placeholder="Ted Chiang" required>
+              </div>
+            </div>
+
+            <div>
+              <label id="label-ano">Ano</label>
+              <div>
+                <input type="text" name="input_ano" id="input_ano" min = -2100 max = 2027 placeholder="1998" required>
+              </div>
+            </div>
+
+            <div>
+              <label id="label-isbn">ISBN</label>
+              <div>
+                <input type="text" name="input_isbn" id="input_isbn" placeholder="978-8551000786" required>
+              </div>
+            </div>
+            
+            <br>
+
+            <div>
+              <label id="label-sinopse">Sinopse</label>
+              <div>
+                <textarea id="input_sinopse" name="input_sinopse" class="caixa-limitada"></textarea>
+              </div>
+            </div>
+
+            <br>   
+                <p>Gênero </p>
+        
+                <label>
+                <input type="checkbox" name="generos[]" value="ficcao"> Ficção
+                </label><br>
+
+                <label>
+                <input type="checkbox" name="generos[]" value="historia"> História
+                </label><br>
+
+                <label>
+                <input type="checkbox" name="generos[]" value="filosofia"> Filosofia
+                </label><br>
+
+                <label>
+                <input type="checkbox" name="generos[]" value="poesia"> Poesia
+                </label><br>
+
+                <label>
+                <input type="checkbox" name="generos[]" value="arte"> Arte
+                </label><br>
+                
+                <label>
+                <input type="checkbox" name="generos[]" value="religiao"> Religião
+                </label><br>
+            
+            <br>
+            
+            <div>
+                <label id="label-idioma">Idioma</label>
+                <select id="slc_outro_idioma" autocomplete="off" name="idioma-item" id="idioma-item">
+                    <option value="portugues">Português</option>
+                    <option value="ingles">Inglês</option>
+                    <option value="mandarim">Mandarim</option>
+                    <option value="alemao">Alemão</option>
+                    <option value="outro">Outro</option>
+                </select>
+
+                <div style="display: none;" id="div_outro_idioma">
+                    <label>Digite outro</label>
+                    <div>
+                        <input autocomplete="off" type="text" name="idioma-item" placeholder="Digite o idioma" required>
+                    </div>
                 </div>
             </div>
-            
-        </div>
-        <br>
+            <br>
 
-        <!--autocomplete="off -> evitar que os dados sejam salvos pelo navegador-->
-        <form autocomplete="off">
-            <p>Condição </p>
-    
-            <label>
-            <input type="radio" id="novo" name="condicao_conservacao" value="novo"> Novo
-            </label><br>
-
-            <label>
-            <input type="radio" id="seminovo" name="condicao_conservacao" value="seminovo"> Seminovo
-            </label><br>
-
-            <label>
-            <input type="radio" id="usado" name="condicao_conservacao" value="usado"> Usado
-            </label><br>
+            <div>
+              <br>
+              <div> 
+              <label for="foto">Escolha uma para capa:</label>
+              <input type="file" id="capa" name="capa" accept="image/*">
+              </div>
               
-            <label>
-            <input type="radio" id="desgastado" name="condicao_conservacao" value="desgastado"> Desgastado
-            </label><br>
-              
-        </form>
-        
-        <br>
-        <div>
-          <label id="label-preco">Preço</label>
-          <div>
-            <input type="text" name="input_preco" id="input_preco" placeholder="75" required>
+              <br>
+              <div> 
+              <label for="video">Escolha uma video do produto:</label>
+              <input type="file" id="video" name="capa" accept="video/*">
+              </div>
+                <br>
+                <button type="submit" name="submit" id="submit">Cadastrar</button>
           </div>
         </div>
         
-        <br>
-        <div> 
-        <label for="foto">Escolha uma para capa:</label>
-        <input type="file" id="capa" name="capa" accept="image/*">
-        </div>
+          <div id="div_novo_exemplar" class="cadastro_produto" style="display: none;">
+              <label id="label-preco">Preço</label>
+              <div>
+                <input type="text" name="input_preco" id="input_preco" 
+                placeholder="75" required>
+              </div>
+              <br>
+              <p>Condição </p>
         
-        <br>
-        <div> 
-        <label for="video">Escolha uma video do produto:</label>
-        <input type="file" id="video" name="capa" accept="video/*">
-        </div>
+                <label>
+                <input type="radio" id="novo" name="condicao_conservacao" value="novo"> Novo
+                </label><br>
 
-          <br>
-          <button type="submit">Cadastrar</button>
-    
-        </form>
+                <label>
+                <input type="radio" id="seminovo" name="condicao_conservacao" value="seminovo"> Seminovo
+                </label><br>
+
+                <label>
+                <input type="radio" id="usado" name="condicao_conservacao" value="usado"> Usado
+                </label><br>
+                  
+                <label>
+                <input type="radio" id="desgastado" name="condicao_conservacao" value="desgastado"> Desgastado
+                </label><br>
         </div>
+      </form>
+
       </main>
     </header>
 
