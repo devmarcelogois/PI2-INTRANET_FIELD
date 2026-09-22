@@ -2,56 +2,172 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8">
-    <title>login-adm</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Gerenciamento de acervo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
   </head>
+  
   <body>
       <header class="navbar">
         <div class="logo">SEBO PANSOFIA</div>
-      <main class="login-container">
-        <div class="login-card">
-          <h1>Sebo Pansofia - <span>Acesso Restrito</span></h1>
+      <main class="cadastro-container">
+
+        <div class="cadastro_produto_login">
+        <a href="">Admin</a>
+        <br>
+        <a href="">Administrador</a>
+        </div>
+        <img src="assets\images\admin_icon.png" alt="Admin icon">
+
+        <div class="cadastro_produto">
+          <h1 class="title">Cadastrar novo produto</h1>
           <br>
-          <h2 class="subtitle">Acesse o painel de gestão do acervo</h2>
-          
-          <br>
-          
-          <form>
-            <label>TIPO DE ACESSO</label>
+                  
+        <!--autocomplete="off -> evitar que os dados sejam salvos pelo navegador-->
+        <form autocomplete="off">
+            <label>Categoria:</label>
             <div>
-              <button type="button" id="btn-funcionario">Funcionário</button>
-              <button type="button" id="btn-admin">Administrador</button>
+              <button type="button" id="btn-livro">Livro</button>
+              <button type="button" id="btn-hq">HQ</button>
             </div>
         <br>
         
         <div>
-          <label for="email" id="label-user">E-MAIL</label>
+          <label id="label-titulo">Título</label>
           <div>
-            <input type="email" id="user-input" placeholder="nome@sebo-pansofia.com" required>
+            <input type="text" name="input_titulo" id="input_titulo" placeholder="Memórias Póstumas" required>
+          </div>
+        </div>
+
+        <div>
+          <label id="label-autor">Autor</label>
+          <div>
+            <input type="text" name="input_autor" id="input_autor" placeholder="Ted Chiang" required>
+          </div>
+        </div>
+
+        <div>
+          <label id="label-ano">Ano</label>
+          <div>
+            <input type="text" name="input_ano" id="input_ano" min = -2100 max = 2027 placeholder="1998" required>
+          </div>
+        </div>
+
+        <div>
+          <label id="label-isbn">ISBN</label>
+          <div>
+            <input type="text" name="input_isbn" id="input_isbn" placeholder="978-8551000786" required>
           </div>
         </div>
         
         <br>
+                
+        <!--autocomplete="off -> evitar que os dados sejam salvos pelo navegador-->
+        <form autocomplete="off">
+            <p>Gênero </p>
+    
+            <label>
+            <input type="checkbox" name="generos[]" value="ficcao"> Ficção
+            </label><br>
 
+            <label>
+            <input type="checkbox" name="generos[]" value="historia"> História
+            </label><br>
+
+            <label>
+            <input type="checkbox" name="generos[]" value="filosofia"> Filosofia
+            </label><br>
+
+            <label>
+            <input type="checkbox" name="generos[]" value="poesia"> Poesia
+            </label><br>
+
+            <label>
+            <input type="checkbox" name="generos[]" value="arte"> Arte
+            </label><br>
+            
+            <label>
+            <input type="checkbox" name="generos[]" value="religiao"> Religião
+            </label><br>
+        </form>
+        
+        <br>
+        
         <div>
-            <div>
-              <label for="password">SENHA</label>
-            </div>
+            <label id="label-idioma">Idioma</label>
+            <select id="slc_outro_idioma" autocomplete="off" name="idioma-item" id="idioma-item">
+                <option value="portugues">Português</option>
+                <option value="ingles">Inglês</option>
+                <option value="mandarim">Mandarim</option>
+                <option value="alemao">Alemão</option>
+                <option value="outro">Outro</option>
+            </select>
 
-            <div>
-              <input type="password" id="password" placeholder="••••••••" required>
-              <br>
-              <a href="#">Esqueceu sua senha?</a>
+            <div style="display: none;" id="div_outro_idioma">
+                <label>Digite outro</label>
+                <div>
+                    <input autocomplete="off" type="text" name="idioma-item" placeholder="Digite o idioma" required>
+                </div>
             </div>
+            
+        </div>
+        <br>
+
+        <!--autocomplete="off -> evitar que os dados sejam salvos pelo navegador-->
+        <form autocomplete="off">
+            <p>Condição </p>
+    
+            <label>
+            <input type="radio" id="novo" name="condicao_conservacao" value="novo"> Novo
+            </label><br>
+
+            <label>
+            <input type="radio" id="seminovo" name="condicao_conservacao" value="seminovo"> Seminovo
+            </label><br>
+
+            <label>
+            <input type="radio" id="usado" name="condicao_conservacao" value="usado"> Usado
+            </label><br>
+              
+            <label>
+            <input type="radio" id="desgastado" name="condicao_conservacao" value="desgastado"> Desgastado
+            </label><br>
+              
+        </form>
+        
+        <br>
+        <div>
+          <label id="label-preco">Preço</label>
+          <div>
+            <input type="text" name="input_preco" id="input_preco" placeholder="75" required>
           </div>
+        </div>
+        
+        <br>
+        <div> 
+        <label for="foto">Escolha uma para capa:</label>
+        <input type="file" id="capa" name="capa" accept="image/*">
+        </div>
+        
+        <br>
+        <div> 
+        <label for="video">Escolha uma video do produto:</label>
+        <input type="file" id="video" name="capa" accept="video/*">
+        </div>
 
           <br>
-          <button type="submit">ENTRAR</button>
-          
+          <button type="submit">Cadastrar</button>
+    
         </form>
         </div>
       </main>
     </header>
-    <script src="script.js"></script>
+
+    <footer>
+        <p>&copy; 2026 Sebo Pansofia. Todos os direitos reservados.</p>
+        <address>
+        Contato: <a href="mailto:support@pansofia.com">support@pansofia.com</a>
+        </address>
+    </footer>
+    <script src="assets/js/addprod.js"></script>
   </body>
 </html>
