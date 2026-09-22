@@ -82,22 +82,20 @@ VALUES ('$nome', '$email', '$telefone', '$sexo', '$data_nasc', '$cidade', '$esta
 
         <form autocomplete="off" action="addprod.php" >
           <div id="div_nova_midia" class="cadastro_produto" style="display: block;">
-              <h1 class="title">Gerenciamento de acervo</h1>
-              <br>
+            <label>Categoria:</label>
+            <label>
+              <input type="radio" id="btn-livro" name="tipo-midia" value="livro" checked> Livro
+            </label>
+            <label>
+              <input type="radio" id="btn-hq" name="tipo-midia" value="hq"> HQ
+            </label> 
 
-                <label>Categoria:</label>
-                <label>
-                  <input type="radio" id="btn-livro" name="tipo-midia" value="livro" checked> Livro
-                </label>
-                <label>
-                  <input type="radio" id="btn-hq" name="tipo-midia" value="hq"> HQ
-                </label> 
-            <br>
+            <br><br>
             
             <div>
               <label id="label-titulo">Título</label>
               <div>
-                <input type="text" name="input_titulo" id="input_titulo" placeholder="Memórias Póstumas" required>
+                <input type="text" name="input_titulo" id="input_titulo" placeholder="História de Sua Vida" required>
               </div>
             </div>
 
@@ -178,49 +176,67 @@ VALUES ('$nome', '$email', '$telefone', '$sexo', '$data_nasc', '$cidade', '$esta
                 </div>
             </div>
             <br>
+        </div>
+        
+        <div id="div_novo_exemplar" class="cadastro_produto" style="display: none;">
+          <label>Categoria:</label>
+            <label>
+              <input type="radio" id="btn-livro" name="tipo-midia" value="livro" checked> Livro
+            </label>
+            
+          <label>
+            <input type="radio" id="btn-hq" name="tipo-midia" value="hq"> HQ
+          </label>
 
+          <br><br>
+
+          <div>
+            <label id="label-isbn">ISBN</label>
             <div>
-              <br>
-              <div> 
-              <label for="foto">Escolha uma para capa:</label>
-              <input type="file" id="capa" name="capa" accept="image/*">
-              </div>
-              
-              <br>
-              <div> 
-              <label for="video">Escolha uma video do produto:</label>
-              <input type="file" id="video" name="capa" accept="video/*">
-              </div>
-                <br>
-                <button type="submit" name="submit" id="submit">Cadastrar</button>
+              <input type="text" name="input_isbn" id="input_isbn" placeholder="978-8551000786" required>
+            </div>
           </div>
-        </div>
-        
-          <div id="div_novo_exemplar" class="cadastro_produto" style="display: none;">
-              <label id="label-preco">Preço</label>
-              <div>
-                <input type="text" name="input_preco" id="input_preco" 
-                placeholder="75" required>
-              </div>
-              <br>
-              <p>Condição </p>
-        
-                <label>
-                <input type="radio" id="novo" name="condicao_conservacao" value="novo"> Novo
-                </label><br>
+          <br>
+          <label id="label-preco">Preço</label>
+          <div>
+            <input type="text" name="input_preco" id="input_preco" 
+            placeholder="75" required>
+          </div>
+          <br>
+          <p>Condição </p>
+    
+            <label>
+            <input type="radio" id="novo" name="condicao_conservacao" value="novo" checked> Novo
+            </label><br>
 
-                <label>
-                <input type="radio" id="seminovo" name="condicao_conservacao" value="seminovo"> Seminovo
-                </label><br>
+            <label>
+            <input type="radio" id="seminovo" name="condicao_conservacao" value="seminovo"> Seminovo
+            </label><br>
 
-                <label>
-                <input type="radio" id="usado" name="condicao_conservacao" value="usado"> Usado
-                </label><br>
-                  
-                <label>
-                <input type="radio" id="desgastado" name="condicao_conservacao" value="desgastado"> Desgastado
-                </label><br>
+            <label>
+            <input type="radio" id="usado" name="condicao_conservacao" value="usado"> Usado
+            </label><br>
+              
+            <label>
+            <input type="radio" id="desgastado" name="condicao_conservacao" value="desgastado"> Desgastado
+            </label><br>
+
+          <div>
+            <br>
+            <div> 
+            <label for="foto">Escolha uma para capa:</label>
+            <input type="file" id="capa" name="capa" accept="image/*">
+            </div>
+            
+            <br>
+            <div> 
+            <label for="video">Escolha uma video do produto:</label>
+            <input type="file" id="video" name="capa" accept="video/*">
+            </div>
+            <br>
+            <button type="submit" name="submit" id="submit">Cadastrar</button>
         </div>
+      </div>
       </form>
 
       </main>
