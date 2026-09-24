@@ -1,14 +1,7 @@
 const btnLivro = document.getElementById('btn-livro');
 const btnHq = document.getElementById('btn-hq');
-const slcOutroIdioma = document.getElementById('slc_outro_idioma');
-const divOutroIdioma = document.getElementById('div_outro_idioma');
-
-
-//Nova mídia ou novo exemplar
-const rdNovoExemplar = document.getElementById('rd-novo_exemplar');
-const rdNovaMidia = document.getElementById('rd-nova_midia');
-const divNovaMidia = document.getElementById('div_nova_midia');
 const divNovoExemplar = document.getElementById('div_novo_exemplar');
+const divNovaMidia = document.getElementById('div_nova_midia');
 
 //inputs do item
 let tipoItem = "LIVRO";
@@ -45,7 +38,6 @@ btnLivro.addEventListener('click', () => {
     //btnLivro.classList.add('active');
     //btnHq.classList.remove('active');
 
-    inputUser.placeholder = 'nome@sebo-pansofia.com';
 });
 
 btnHq.addEventListener('click', () => {
@@ -62,23 +54,71 @@ btnHq.addEventListener('click', () => {
     //btnHq.classList.add('active');
     //btnLivro.classList.remove('active');
 
-    inputUser.placeholder = 'Hq_user';
 });
 
+const slcOutroIdioma = document.getElementById('select-idioma');
+const divOutroIdioma = document.getElementById('div_outro_idioma');
+
 slcOutroIdioma.addEventListener('change', (event) => {
-    if (slcOutroIdioma.value === "outro") {
+    if (event.target.value === "0") {
       divOutroIdioma.style.display = "block"; // Mostra a div
     } else {
-      divOutroIdioma.style.display = "none";  // Esconde a div
+        divOutroIdioma.style.display = "none";  // Esconde a div
+        inputOutroIdioma.required = false; // Tira a obrigatoriedade quando estiver oculto
+
     }
 });
 
-rdNovoExemplar.addEventListener('change', (event) => {
-    divNovaMidia.style.display = "none";
-    divNovoExemplar.style.display = "block"; 
+document.querySelectorAll('input[name="opcao_gerenciamento"]').forEach((radio) => {
+    radio.addEventListener('change', (event) => {
+        const valorSelecionado = event.target.value;
+
+        divNovaMidia.style.display =
+            (valorSelecionado === "novaMidia") ? "block" : "none";
+
+        divNovoExemplar.style.display =
+            (valorSelecionado === "novoExemplar") ? "block" : "none";
+    });
 });
 
-rdNovaMidia.addEventListener('change', (event) => {
-    divNovoExemplar.style.display = "none"; 
-    divNovaMidia.style.display = "block";
-});
+async function carregarGenerosLiterarios() {
+        const generos =  listarGenerosLiteraios(); 
+        
+        const box = document.querySelector("#genero");
+        
+        let htmlGerado = ""; // Variável para acumular o HTML
+        
+        generos.forEach(genero => {
+            // Usa += para ir somando cada checkbox no texto
+            htmlGerado += `
+                <label>
+                    <input type="checkbox" name="generos[]" value="${genero.id}">
+                    ${genero.nome}
+                </label><br>
+            `;
+        });
+        
+        // Joga todo o texto acumulado dentro da div de uma vez só
+        box.innerHTML = htmlGerado;          
+}
+carregarGenerosLiterarios();
+
+async function carregarIdioma() {
+        const idiomas =  listarIdiomas(); 
+        
+        const box = document.querySelector("#select-idioma");
+        
+        let htmlGerado=""; // Variável para acumular o HTML
+
+        idiomas.forEach(idioma => {
+            // Usa += para ir somando cada checkbox no texto
+            htmlGerado += `
+                    <option value="${idioma.id}">
+                    ${idioma.nome}                </option>
+
+            `;
+        });
+                
+        box.innerHTML += htmlGerado;          
+}
+carregarIdioma();

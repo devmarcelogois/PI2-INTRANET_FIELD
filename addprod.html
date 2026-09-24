@@ -25,20 +25,31 @@
 <?php
 include_once('config.php');
 
-$nome $_POST['input-titulo'];
+//TITULO
+$titulo $_POST['input-titulo'];
 $ano $_POST['input-ano'];
 
 //O banco receberá o ID do campo, com o sistema de autocomplete OU adicionando uma nova linha na tabela:
-$id_autor = $_POST['input-id-autor']; 
+$id_autor = $_POST['input-id-autor'];
 $isbn $_POST['input-isbn'];
 $sinopse $_POST['input-sinopse'];
 $tipomidia $_POST['tipo-midia'];
+$tipogerenciamento $_POST['opcao_gerenciamento'];
 
-$result = mysqli_query($conexao, "INSERT INTO usuarios (nm_titulo, email, telefone, sexo, data_nasc, cidade, estado, endereco)
-VALUES ('$nome', '$email', '$telefone', '$sexo', '$data_nasc', '$cidade', '$estado', '$endereco")");
+//NOVO EXEMPLAR
+$preco $_POST['input-preco'];
+$condicao $_POST['condicao_conservacao'];
 
+
+if ($tipogerenciamento == "novaMidia"){
+ $result = mysqli_query($conexao, "INSERT INTO midia (nm_titulo, cd_isbn_catalogo, aa_lancamento, ds_sinopse, cd_tipo_midia, cd_funcionario, cd_fornecedor)
+ VALUES ('$nome', '$ano', '$id_autor', '$sexo', '$isbn', '$sinopse', '$tipomidia', 'admin', 'admin', 'NONE")");
+} else {
+  $result = mysqli_query($conexao, "INSERT INTO exemplar (vl_preco, tp_condicao_fisica)
+  VALUES ('$preco', '$condicao')");
+}
 ?>
- -->
+-->
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -50,8 +61,9 @@ VALUES ('$nome', '$email', '$telefone', '$sexo', '$data_nasc', '$cidade', '$esta
   
   <body>
       <header class="navbar">
-      
-      <div class="logo">SEBO PANSOFIA</div>
+        <div class="logo">SEBO PANSOFIA</div>
+      </header>
+
       <main class="cadastro-container">
 
         <div class="cadastro_produto_login">
@@ -67,180 +79,139 @@ VALUES ('$nome', '$email', '$telefone', '$sexo', '$data_nasc', '$cidade', '$esta
         -->
   
         <div class="cadastro_produto_login">
-            <label>
-                <input type="radio" id="rd-nova_midia" name="opcao_gerenciamento" checked> Nova mídia
-            </label>
-            
-            <label>
-                <input type="radio" id="rd-novo_exemplar" name="opcao_gerenciamento"> Novo exemplar
-            </label> 
-        </div>
+          <label>
+              <input type="radio" name="opcao_gerenciamento" value="novaMidia" checked>
+              Nova mídia
+          </label>
 
+          <label>
+              <input type="radio" name="opcao_gerenciamento" value="novoExemplar">
+              Novo exemplar
+          </label>
+      </div>
+
+      <!--ESCOLHA DO TIPO DE MÍDIA-->
+      <div class="cadastro_produto">
+        <label>Categoria:</label>
+        <label>
+          <input type="radio" id="btn-livro" name="tipo-midia" value="0" checked> Livro
+        </label>
+        <label>
+          <input type="radio" id="btn-hq" name="tipo-midia" value="1"> HQ
+        </label>
+      </div>
         <!--COMEÇO DO FORMULÁRIO: 
         NOVA MÍDIA 
         OU NOVO EXEMPLAR-->
-
-        <form autocomplete="off" action="addprod.php" >
-          <div id="div_nova_midia" class="cadastro_produto" style="display: block;">
-            <label>Categoria:</label>
-            <label>
-              <input type="radio" id="btn-livro" name="tipo-midia" value="livro" checked> Livro
-            </label>
-            <label>
-              <input type="radio" id="btn-hq" name="tipo-midia" value="hq"> HQ
-            </label> 
-
-            <br><br>
-            
+      <form autocomplete="off" action="addprod.php">
+        <div id="div_nova_midia" class="cadastro_produto" name="divNovaMidia" style="display: block;">
+          <div>
+            <label id="label-titulo">Título</label>
             <div>
-              <label id="label-titulo">Título</label>
-              <div>
-                <input type="text" name="input_titulo" id="input_titulo" placeholder="História de Sua Vida" required>
-              </div>
+              <input type="text" name="input_titulo" id="input_titulo" placeholder="História de Sua Vida" required>
             </div>
+          </div>
 
+          <div>
+            <label id="label-autor">Autor</label>
             <div>
-              <label id="label-autor">Autor</label>
-              <div>
-                <input type="text" name="input_autor" id="input_autor" placeholder="Ted Chiang" required>
-              </div>
+              <input type="text" name="input_autor" id="input_autor" placeholder="Ted Chiang" required>
             </div>
+          </div>
 
+          <div>
+            <label id="label-ano">Ano</label>
             <div>
-              <label id="label-ano">Ano</label>
-              <div>
-                <input type="text" name="input_ano" id="input_ano" min = -2100 max = 2027 placeholder="1998" required>
-              </div>
+              <input type="text" name="input_ano" id="input_ano" placeholder="1998" required>
             </div>
+          </div>
 
+          <div>
+            <label id="label-midia-isbn">ISBN</label>
             <div>
-              <label id="label-isbn">ISBN</label>
-              <div>
-                <input type="text" name="input_isbn" id="input_isbn" placeholder="978-8551000786" required>
-              </div>
+              <input type="text" name="input_midia_isbn" id="input_midia_isbn" placeholder="978-8551000786" required>
             </div>
-            
-            <br>
+          </div>
+          <br>
 
+          <div>
+            <label id="label-sinopse">Sinopse</label>
             <div>
-              <label id="label-sinopse">Sinopse</label>
-              <div>
-                <textarea id="input_sinopse" name="input_sinopse" class="caixa-limitada"></textarea>
-              </div>
+              <textarea id="input_sinopse" name="input_sinopse" class="caixa-limitada"></textarea>
             </div>
+          </div>
+          <br>
 
-            <br>   
-                <p>Gênero </p>
-        
-                <label>
-                <input type="checkbox" name="generos[]" value="ficcao"> Ficção
-                </label><br>
-
-                <label>
-                <input type="checkbox" name="generos[]" value="historia"> História
-                </label><br>
-
-                <label>
-                <input type="checkbox" name="generos[]" value="filosofia"> Filosofia
-                </label><br>
-
-                <label>
-                <input type="checkbox" name="generos[]" value="poesia"> Poesia
-                </label><br>
-
-                <label>
-                <input type="checkbox" name="generos[]" value="arte"> Arte
-                </label><br>
-                
-                <label>
-                <input type="checkbox" name="generos[]" value="religiao"> Religião
-                </label><br>
-            
-            <br>
-            
-            <div>
-                <label id="label-idioma">Idioma</label>
-                <select id="slc_outro_idioma" autocomplete="off" name="idioma-item" id="idioma-item">
-                    <option value="portugues">Português</option>
-                    <option value="ingles">Inglês</option>
-                    <option value="mandarim">Mandarim</option>
-                    <option value="alemao">Alemão</option>
-                    <option value="outro">Outro</option>
+              <p>Gênero </p>
+              <div id="genero"></div>
+              <br>
+          <div>
+              <label for="select-idioma">Idioma</label>
+                <select id="select-idioma">
+                  <option id="op_outro_idioma" value="0"> Outro</option>
                 </select>
 
-                <div style="display: none;" id="div_outro_idioma">
-                    <label>Digite outro</label>
-                    <div>
-                        <input autocomplete="off" type="text" name="idioma-item" placeholder="Digite o idioma" required>
-                    </div>
-                </div>
-            </div>
-            <br>
+              <div style="display: block;" id="div_outro_idioma">
+                  <label>Digite outro</label>
+                  <div>
+                      <input type="text" name="input-idioma-item" placeholder="Digite o idioma" required>
+                  </div>
+              </div>
+          </div>
+          <br>
+      </div>
+
+      <div id="div_novo_exemplar" class="cadastro_produto" name="divNovoExemplar" style="display: none;">
+        <div>
+          <label id="label-exemplar-isbn">ISBN</label>
+          <div>
+            <input type="text" name="input_exemplar_isbn" id="input_exemplar_isbn" placeholder="978-8551000786" required>
+          </div>
         </div>
-        
-        <div id="div_novo_exemplar" class="cadastro_produto" style="display: none;">
-          <label>Categoria:</label>
-            <label>
-              <input type="radio" id="btn-livro" name="tipo-midia" value="livro" checked> Livro
-            </label>
+        <br>
+        <label id="label-preco">Preço</label>
+        <div>
+          <input type="text" name="input_preco" id="input_preco" 
+          placeholder="75" required>
+        </div>
+        <br>
+        <p>Condição </p>
+  
+          <label>
+          <input type="radio" id="novo" name="condicao_conservacao" value="novo" checked> Novo
+          </label><br>
+
+          <label>
+          <input type="radio" id="seminovo" name="condicao_conservacao" value="seminovo"> Seminovo
+          </label><br>
+
+          <label>
+          <input type="radio" id="usado" name="condicao_conservacao" value="usado"> Usado
+          </label><br>
             
           <label>
-            <input type="radio" id="btn-hq" name="tipo-midia" value="hq"> HQ
-          </label>
+          <input type="radio" id="desgastado" name="condicao_conservacao" value="desgastado"> Desgastado
+          </label><br>
 
-          <br><br>
-
-          <div>
-            <label id="label-isbn">ISBN</label>
-            <div>
-              <input type="text" name="input_isbn" id="input_isbn" placeholder="978-8551000786" required>
-            </div>
+        <div>
+          <br>
+          <div> 
+          <label for="foto">Escolha uma para capa:</label>
+          <input type="file" id="capa" name="capa" accept="image/*">
+          </div>
+          
+          <br>
+          <div> 
+          <label for="video">Escolha uma video do produto:</label>
+          <input type="file" id="video" name="video" accept="video/*">
           </div>
           <br>
-          <label id="label-preco">Preço</label>
-          <div>
-            <input type="text" name="input_preco" id="input_preco" 
-            placeholder="75" required>
-          </div>
-          <br>
-          <p>Condição </p>
-    
-            <label>
-            <input type="radio" id="novo" name="condicao_conservacao" value="novo" checked> Novo
-            </label><br>
-
-            <label>
-            <input type="radio" id="seminovo" name="condicao_conservacao" value="seminovo"> Seminovo
-            </label><br>
-
-            <label>
-            <input type="radio" id="usado" name="condicao_conservacao" value="usado"> Usado
-            </label><br>
-              
-            <label>
-            <input type="radio" id="desgastado" name="condicao_conservacao" value="desgastado"> Desgastado
-            </label><br>
-
-          <div>
-            <br>
-            <div> 
-            <label for="foto">Escolha uma para capa:</label>
-            <input type="file" id="capa" name="capa" accept="image/*">
-            </div>
-            
-            <br>
-            <div> 
-            <label for="video">Escolha uma video do produto:</label>
-            <input type="file" id="video" name="capa" accept="video/*">
-            </div>
-            <br>
-            <button type="submit" name="submit" id="submit">Cadastrar</button>
-        </div>
+      </div>
+      <button type="submit" name="submit" id="submit">Cadastrar</button>
       </div>
       </form>
 
       </main>
-    </header>
 
     <footer>
         <p>&copy; 2026 Sebo Pansofia. Todos os direitos reservados.</p>
@@ -248,6 +219,9 @@ VALUES ('$nome', '$email', '$telefone', '$sexo', '$data_nasc', '$cidade', '$esta
         Contato: <a href="mailto:support@pansofia.com">support@pansofia.com</a>
         </address>
     </footer>
-    <script src="assets/js/addprod.js"></script>
+
+  <script src="assets/js/services/idiomaService.js"></script>
+  <script src="assets/js/services/generoService.js"></script>
+  <script src="assets/js/addprod.js"></script>
   </body>
 </html>
